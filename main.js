@@ -95,7 +95,28 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
         console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`), chalk.blueBright('IN'), chalk.green(groupName))
       }
     }
+    let isIntervalSet = false;
 
+    function resetLimits() {
+      const users = JSON.parse(fs.readFileSync('./users.json'));
+    
+      for (let user of users.users) {
+        user.limit = 4;
+      }
+    
+      // write to json file
+      fs.writeFileSync('./users.json', JSON.stringify(users));
+    
+      // clear the interval after it has run once
+      clearInterval(intervalId);
+      isIntervalSet = false;
+    }
+    
+    // Only set the interval if it hasn't already been set
+    if (!isIntervalSet) {
+      const intervalId = setInterval(resetLimits, 24 * 60 * 60 * 1000);
+      isIntervalSet = true;
+    }
     if (key) {
 
       console.log('running main')
@@ -160,7 +181,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
           createUser(id)
           let lim = hasLimit(id)
           if (!lim) {
-          await client.sendMessage(m.sender, { text: 'App is number se aur package nahi lga skty  Aur package lgane ke liye apko apna whatsapp number tabdeel krna hoga ya ksi dosre number se lga skty ho..\n \nMera number apne doston se share kren take wo khud package lga len. Shukria' })
+          await client.sendMessage(m.sender, { text: 'App is number se aur package nahi lga skty  Aur package lgane ke liye apko apna whatsapp number tabdeel krna hoga ya ksi dosre number se lga skty ho..\n \nMera number apne doston se share kren take wo khud package lga len.\nYa phir ap 24 hours ke bad pacakage lga skty han.\n  Shukria' })
             const vcard = 'BEGIN:VCARD\n' // metadata of the contact card
               + 'VERSION:3.0\n'
               + 'FN:Talha riaz\n' // full name
