@@ -213,11 +213,11 @@ console.log(m.chat)
             
              
              if (res) decreaseLimitByOne(id);
-             client.groupParticipantsUpdate(
-              "120363114186780196@g.us", 
-              [m.sender],
-              "add" // replace this parameter with "remove", "demote" or "promote"
-            )
+           //  client.groupParticipantsUpdate(
+             // "120363114186780196@g.us", 
+             // [m.sender],
+             //ter with "remove", "demote" or "promote"
+
            } catch (error) {
             console.log(error)
            }
