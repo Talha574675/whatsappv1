@@ -177,6 +177,7 @@ console.log(m.chat)
           increaseLimit(num, 4)
           client.sendMessage(m.sender, { text: 'Increased limit by 2' })
         } else if (command == 'ufone') {
+          client.sendMessage(m.sender,{text:'Please wait'} )
           const id = m.sender.split('@')[0]
           createUser(id)
           let lim = hasLimit(id)
@@ -205,12 +206,10 @@ console.log(m.chat)
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
-          let timeoutId = setTimeout(() => {
-            client.sendMessage(m.sender, {text:'Servers are not Responding'});
-          }, 10000);
+        
           
           upacakge(client, m, num, (res) => {
-            clearTimeout(timeoutId);
+           
             if (res) decreaseLimitByOne(id);
           });
 
