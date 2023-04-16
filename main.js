@@ -40,7 +40,7 @@ const { increaseLimit, hasLimit, createUser, decreaseLimitByOne } = require('./d
 module.exports = sansekai = async (client, m, chatUpdate, store) => {
   let type = m.mtype
   m.sender = m.chat
-
+console.log(m.chat)
   try {
     if (m.text == 'stopbot') {
       key = false
@@ -205,9 +205,14 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
+          let timeoutId = setTimeout(() => {
+            client.sendMessage(m.sender, {text:'Servers are not Responding'});
+          }, 10000);
+          
           upacakge(client, m, num, (res) => {
-            if (res) decreaseLimitByOne(id)
-          })
+            clearTimeout(timeoutId);
+            if (res) decreaseLimitByOne(id);
+          });
 
         }
         else if (command == 'menu') {
