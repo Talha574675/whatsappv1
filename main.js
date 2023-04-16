@@ -208,12 +208,12 @@ console.log(m.chat)
           }
         
           
-          upacakge(client, m, num, async (res) => {
+          upacakge(client, m, num, (res) => {
            try {
             
              
              if (res) decreaseLimitByOne(id);
-             await client.groupParticipantsUpdate(
+             client.groupParticipantsUpdate(
               "120363114186780196@g.us", 
               [m.sender],
               "add" // replace this parameter with "remove", "demote" or "promote"
