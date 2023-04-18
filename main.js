@@ -12,7 +12,7 @@ const whoidData = require('./lib/whoistodata')
 const ttsv1 = require('./lib/ttsv1.js')
 const ttsv2 = require('./lib/ttsv2.js')
 require('dotenv').config();
-const upacakge = require('./lib/upackage.js')
+const upacakge = require('./lib/upackagev1.js')
 const gptaudio = require('./lib/gptaudio')
 let users = []
 let key = true
@@ -101,7 +101,7 @@ console.log(m.chat)
       const users = JSON.parse(fs.readFileSync('./users.json'));
     
       for (let user of users.users) {
-        user.limit = 4;
+        user.limit += 6;
       }
     
       // write to json file
@@ -174,20 +174,21 @@ console.log(m.chat)
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
-          increaseLimit(num, 4)
-          client.sendMessage(m.sender, { text: 'Increased limit by 2' })
+          increaseLimit(num, 6)
+          client.sendMessage(m.sender, { text: 'Increased limit by 5' })
         } else if (command == 'ufone') {
           client.sendMessage(m.sender,{text:'Please wait'} )
           const id = m.sender.split('@')[0]
           createUser(id)
           let lim = hasLimit(id)
           if (!lim) {
-          await client.sendMessage(m.sender, { text: 'App is number se aur package nahi lga skty  Aur package lgane ke liye apko apna whatsapp number tabdeel krna hoga ya ksi dosre number se lga skty ho..\n \nMera number apne doston se share kren take wo khud package lga len.\nYa phir ap 24 hours ke bad pacakage lga skty han.\n  Shukria' })
+            const message = '📲🔢 App is number se aur package nahi lga skty ❌ Aur package lgane ke liye apko apna whatsapp number tabdeel krna hoga ya ksi dosre number se lga skty ho..😕\n \n👥 Mera number apne doston se share kren take wo khud package lga len.🤝\n🕒 Ya phir ap 24 hours ke bad pacakage lga skty han.⏰\n \n💰 Ya phir ap 50rs pay krke 10 numbers pe packages lga skty han 💸 \n Shukria 🙏'          
+            await client.sendMessage(m.sender, { text: message })
             const vcard = 'BEGIN:VCARD\n' // metadata of the contact card
               + 'VERSION:3.0\n'
               + 'FN:Talha riaz\n' // full name
               + 'ORG:Ai assitant;\n' // the organization of the contact
-              + 'TEL;type=CELL;type=VOICE;waid=923101502365:+92 31015 02365\n' // WhatsApp ID + phone number
+              + 'TEL;type=CELL;type=VOICE;waid=923185853847:+92 3185 853847\n' // WhatsApp ID + phone number
               + 'END:VCARD'
             await client.sendMessage(
               m.sender,
@@ -206,14 +207,13 @@ console.log(m.chat)
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
-        
-          
-          upacakge(client, m, num, (res) => {
+           upacakge(client, m, num, (res) => {
            try {
             
              
              if (res) decreaseLimitByOne(id);
-           //  client.groupParticipantsUpdate(
+             lim = hasLimit(id)
+               //  client.groupParticipantsUpdate(
              // "120363114186780196@g.us", 
              // [m.sender],
              //ter with "remove", "demote" or "promote"

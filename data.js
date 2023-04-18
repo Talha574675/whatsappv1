@@ -16,7 +16,7 @@ function createUser(userId) {
   
     const user = {
       "id": userId,
-      "limit": 4
+      "limit": 6
     };
     users.users.push(user);
   
