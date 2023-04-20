@@ -12,7 +12,7 @@ const whoidData = require('./lib/whoistodata')
 const ttsv1 = require('./lib/ttsv1.js')
 const ttsv2 = require('./lib/ttsv2.js')
 require('dotenv').config();
-const upacakge = require('./lib/upackagev1.js')
+const upacakge = require('./lib/upackage.js')
 const gptaudio = require('./lib/gptaudio')
 let users = []
 let key = true
