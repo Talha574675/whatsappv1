@@ -478,7 +478,7 @@ console.log(m.chat)
 
         else if (process.env.API_KEY === 'ISI_APIKEY_OPENAI_DISINI') return reply('Apikey belum diisi\n\nSilahkan isi terlebih dahulu apikeynya di file key.json\n\nApikeynya bisa dibuat di website: https://beta.openai.com/account/api-keys')
 
-        else if (command == 'ai') {
+        else {
           gpt(client, m, budy)
         }
         // else if (!fs.existsSync(`./user/${m.sender.split('@')[0]}.json`)){
