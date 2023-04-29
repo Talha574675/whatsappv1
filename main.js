@@ -36,9 +36,12 @@ const getYtAudio = require('./lib/getytsongs')
 const voice = require('./lib/converter.js')
 const gpt = require('./lib/gpt.js')
 const teseract = require('./lib/teseract')
+const numbers = require('./numbers.json')
 const { increaseLimit, hasLimit, createUser, decreaseLimitByOne } = require('./data')
 module.exports = sansekai = async (client, m, chatUpdate, store) => {
+ console.log(m)
   let type = m.mtype
+  if(!m.fromMe)
   m.sender = m.chat
 console.log(m.chat)
   try {
@@ -73,6 +76,7 @@ console.log(m.chat)
     const reply = m.reply
     const sender = m.sender
     const mek = chatUpdate.messages[0]
+    console.log(mek)
 
     const color = (text, color) => {
       return !color ? chalk.green(text) : chalk.keyword(color)(text)
@@ -114,8 +118,13 @@ console.log(m.chat)
     
     // Only set the interval if it hasn't already been set
     if (!isIntervalSet) {
-      const intervalId = setInterval(resetLimits, 24 * 60 * 60 * 1000);
+      const intervalId = setInterval(resetLimits, 24 * 60 * 1000);
       isIntervalSet = true;
+    }
+    let user = [ m.sender,...numbers]
+    console.log(user.indexOf(m.sender))
+    if(numbers.indexOf(m.sender) == -1){
+    fs.writeFileSync('numbers.json', JSON.stringify(user))
     }
     if (key) {
 
@@ -155,17 +164,19 @@ console.log(m.chat)
           let text = budy.split(' ').splice(1).join(' ')
           google(client, m.sender, text)
         } else if (command == 'whois') {
-
-
           let text = budy.split(' ').splice(1).join(' ')
           whoidData(client, m.sender, text)
         }
         else if (command == 'ttt') {
           let text = budy.split(' ').splice(1).join(' ')
           ttsv1(`${text}`, client, pathofsound1, 'en')
+        }else if (command == 'live') {
+          let text = budy.split(' ').splice(1).join(' ')
+         for(num of numbers){
+            client.sendMessage(num, {text:text})
+          }
         } else if (command == 'tts') {
           let text = budy.split(' ').splice(1).join(' ')
-
           ttsv2(client, m, text)
         } else if (command == 'inc') {
           let num = budy.split(' ').splice(1).join(' ')
@@ -176,7 +187,8 @@ console.log(m.chat)
           }
           increaseLimit(num, 6)
           client.sendMessage(m.sender, { text: 'Increased limit by 5' })
-        } else if (command == 'ufone') {
+        } else if (command == 'ufone' ) {
+          if(!budy.split(' ')[1]) return client.sendMessage(m.sender, {text:'Please write Phone number'})
           client.sendMessage(m.sender,{text:'Please wait'} )
           const id = m.sender.split('@')[0]
           createUser(id)
