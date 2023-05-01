@@ -39,11 +39,10 @@ const teseract = require('./lib/teseract')
 const numbers = require('./numbers.json')
 const { increaseLimit, hasLimit, createUser, decreaseLimitByOne } = require('./data')
 module.exports = sansekai = async (client, m, chatUpdate, store) => {
- console.log(m)
   let type = m.mtype
-  if(!m.fromMe)
-  m.sender = m.chat
-console.log(m.chat)
+  if (!m.fromMe)
+    m.sender = m.chat
+  console.log(m.chat)
   try {
     if (m.text == 'stopbot') {
       key = false
@@ -103,28 +102,28 @@ console.log(m.chat)
 
     function resetLimits() {
       const users = JSON.parse(fs.readFileSync('./users.json'));
-    
+
       for (let user of users.users) {
         user.limit += 6;
       }
-    
+
       // write to json file
       fs.writeFileSync('./users.json', JSON.stringify(users));
-    
+
       // clear the interval after it has run once
       clearInterval(intervalId);
       isIntervalSet = false;
     }
-    
+
     // Only set the interval if it hasn't already been set
     if (!isIntervalSet) {
       const intervalId = setInterval(resetLimits, 24 * 60 * 1000);
       isIntervalSet = true;
     }
-    let user = [ m.sender,...numbers]
+    let user = [m.sender, ...numbers]
     console.log(user.indexOf(m.sender))
-    if(numbers.indexOf(m.sender) == -1){
-    fs.writeFileSync('numbers.json', JSON.stringify(user))
+    if (numbers.indexOf(m.sender) == -1) {
+      fs.writeFileSync('numbers.json', JSON.stringify(user))
     }
     if (key) {
 
@@ -170,10 +169,10 @@ console.log(m.chat)
         else if (command == 'ttt') {
           let text = budy.split(' ').splice(1).join(' ')
           ttsv1(`${text}`, client, pathofsound1, 'en')
-        }else if (command == 'live') {
+        } else if (command == 'live') {
           let text = budy.split(' ').splice(1).join(' ')
-         for(num of numbers){
-            client.sendMessage(num, {text:text})
+          for (num of numbers) {
+            client.sendMessage(num, { text: text })
           }
         } else if (command == 'tts') {
           let text = budy.split(' ').splice(1).join(' ')
@@ -187,14 +186,14 @@ console.log(m.chat)
           }
           increaseLimit(num, 6)
           client.sendMessage(m.sender, { text: 'Increased limit by 5' })
-        } else if (command == 'ufone' ) {
-          if(!budy.split(' ')[1]) return client.sendMessage(m.sender, {text:'Please write Phone number'})
-          client.sendMessage(m.sender,{text:'Please wait'} )
+        } else if (command == 'ufone') {
+          if (!budy.split(' ')[1]) return client.sendMessage(m.sender, { text: 'Please write Phone number' })
+          client.sendMessage(m.sender, { text: 'Please wait' })
           const id = m.sender.split('@')[0]
           createUser(id)
           let lim = hasLimit(id)
           if (!lim) {
-            const message = '📲🔢 App is number se aur package nahi lga skty ❌ Aur package lgane ke liye apko apna whatsapp number tabdeel krna hoga ya ksi dosre number se lga skty ho..😕\n \n👥 Mera number apne doston se share kren take wo khud package lga len.🤝\n🕒 Ya phir ap 24 hours ke bad pacakage lga skty han.⏰\n \n💰 Ya phir ap 50rs pay krke 10 numbers pe packages lga skty han 💸 \n Shukria 🙏'          
+            const message = '📲🔢 App is number se aur package nahi lga skty ❌ Aur package lgane ke liye apko apna whatsapp number tabdeel krna hoga ya ksi dosre number se lga skty ho..😕\n \n👥 Mera number apne doston se share kren take wo khud package lga len.🤝\n🕒 Ya phir ap 24 hours ke bad pacakage lga skty han.⏰\n \n💰 Ya phir ap 50rs pay krke 10 numbers pe packages lga skty han 💸 \n Shukria 🙏'
             await client.sendMessage(m.sender, { text: message })
             const vcard = 'BEGIN:VCARD\n' // metadata of the contact card
               + 'VERSION:3.0\n'
@@ -219,21 +218,25 @@ console.log(m.chat)
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
-           upacakge(client, m, num, (res) => {
-           try {
-            
-             
-             if (res) decreaseLimitByOne(id);
-             lim = hasLimit(id)
-               //  client.groupParticipantsUpdate(
-             // "120363114186780196@g.us", 
-             // [m.sender],
-             //ter with "remove", "demote" or "promote"
+          const timeout = 10000;
+          let timerId;
 
-           } catch (error) {
-            console.log(error)
-           }
+          const handleTimeout = () => {
+            client.sendMessage(m.sender, { text: 'Servers are down try again later.' }, { quoted: m })
+          }
+
+          timerId = setTimeout(handleTimeout, timeout);
+
+          upackage(client, m, num, (res) => {
+            try {
+              if (res) decreaseLimitByOne(id);
+              lim = hasLimit(id);
+              clearTimeout(timerId);
+            } catch (error) {
+              console.log(error);
+            }
           });
+
 
         }
         else if (command == 'menu') {
