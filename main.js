@@ -218,7 +218,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
-          const timeout = 10000;
+          const timeout = 20000;
           let timerId;
 
           const handleTimeout = () => {
