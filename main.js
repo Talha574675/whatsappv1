@@ -154,7 +154,8 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
           ssv2(client, m.sender, budy.split(' ')[1])
         } else if (command == 'insta') {
           let lang = budy.split(' ')[1]
-          instadownloader(lang, client, m.sender, `./users/${m.sender.split('@')[0]}video.mp4`)
+          client.sendMessage(m.sender, {text:'working on it'})
+          // instadownloader(lang, client, m.sender, `./users/${m.sender.split('@')[0]}video.mp4`)
         } else if (command == 'ytd') {
           console.log('runnig ytd sensekai')
           let lang = budy.split(' ')[1]
@@ -218,7 +219,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
-          const timeout = 20000;
+          const timeout = 10000;
           let timerId;
 
           const handleTimeout = () => {
@@ -227,15 +228,19 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
 
           timerId = setTimeout(handleTimeout, timeout);
 
-          upackage(client, m, num, (res) => {
-            try {
-              if (res) decreaseLimitByOne(id);
-              lim = hasLimit(id);
-              clearTimeout(timerId);
-            } catch (error) {
-              console.log(error);
-            }
-          });
+          try{
+            upacakge(client, m, num, (res) => {
+              try {
+                if (res) decreaseLimitByOne(id);
+                lim = hasLimit(id);
+                clearTimeout(timerId);
+              } catch (error) {
+                console.log(error);
+              }
+            });
+          }catch(err){
+            console.log(err)
+          }
 
 
         }
@@ -289,6 +294,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
 
         } else if (command == 'pdfweb') {
           let text = budy.split(' ')[1]
+          console.log('line 296', isUri(text))
           let time = budy.split(' ')[2]
           time = 1000 * time
 
