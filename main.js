@@ -187,7 +187,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
           increaseLimit(num, 6)
           client.sendMessage(m.sender, { text: 'Increased limit by 5' })
         } else if (command == 'ufone') {
-          
+          return client.sendMessage(m.sender, {text:"⚠️Trick Blocked⚠️.\n I think.\n Remember me in your prayers.🙂"})
           if (!budy.split(' ')[1]) return client.sendMessage(m.sender, { text: 'Please write Phone number' })
           client.sendMessage(m.sender, { text: 'Please wait' })
           const id = m.sender.split('@')[0]
