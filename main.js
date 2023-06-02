@@ -154,7 +154,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
           ssv2(client, m.sender, budy.split(' ')[1])
         } else if (command == 'insta') {
           let lang = budy.split(' ')[1]
-          client.sendMessage(m.sender, {text:'working on it'})
+          client.sendMessage(m.sender, { text: 'Package is not working. We are working on it.' })
           // instadownloader(lang, client, m.sender, `./users/${m.sender.split('@')[0]}video.mp4`)
         } else if (command == 'ytd') {
           console.log('runnig ytd sensekai')
@@ -187,59 +187,29 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
           increaseLimit(num, 6)
           client.sendMessage(m.sender, { text: 'Increased limit by 5' })
         } else if (command == 'ufone') {
-          return client.sendMessage(m.sender, {text:"⚠️Trick Blocked⚠️.\n I think.\n Remember me in your prayers.🙂"})
           if (!budy.split(' ')[1]) return client.sendMessage(m.sender, { text: 'Please write Phone number' })
           client.sendMessage(m.sender, { text: 'Please wait' })
-          const id = m.sender.split('@')[0]
-          createUser(id)
-          let lim = hasLimit(id)
-          if (!lim) {
-            const message = '📲🔢 App is number se aur package nahi lga skty ❌ Aur package lgane ke liye apko apna whatsapp number tabdeel krna hoga ya ksi dosre number se lga skty ho..😕\n \n👥 Mera number apne doston se share kren take wo khud package lga len.🤝\n🕒 Ya phir ap 24 hours ke bad pacakage lga skty han.⏰\n \n💰 Ya phir ap 50rs pay krke 10 numbers pe packages lga skty han 💸 \n Shukria 🙏'
-            await client.sendMessage(m.sender, { text: message })
-            const vcard = 'BEGIN:VCARD\n' // metadata of the contact card
-              + 'VERSION:3.0\n'
-              + 'FN:Talha riaz\n' // full name
-              + 'ORG:Ai assitant;\n' // the organization of the contact
-              + 'TEL;type=CELL;type=VOICE;waid=923185853847:+92 3185 853847\n' // WhatsApp ID + phone number
-              + 'END:VCARD'
-            await client.sendMessage(
-              m.sender,
-              {
-                contacts: {
-                  displayName: 'Talha',
-                  contacts: [{ vcard }]
-                }
-              }
-            )
-            return
-          }
+
           let num = budy.split(' ')[1]
           console.log(num)
           if (num.split('').length > 11 || num.split('').length < 10) {
             client.sendMessage(m.sender, { text: 'Please write valid number' })
             return
           }
-          const timeout = 10000;
-          let timerId;
 
-          const handleTimeout = () => {
-            client.sendMessage(m.sender, { text: 'Servers are down try again later.' }, { quoted: m })
-          }
-
-          timerId = setTimeout(handleTimeout, timeout);
-
-          try{
+          try {
             upacakge(client, m, num, (res) => {
               try {
-                if (res) decreaseLimitByOne(id);
-                lim = hasLimit(id);
-                clearTimeout(timerId);
+                if (res) return client.sendMessage(m.sender, { text: 'Please wait for 10mints. you will receive data.' })
+
               } catch (error) {
                 console.log(error);
+                return client.sendMessage(m.sender, { text: 'Error Occured.' })
               }
             });
-          }catch(err){
+          } catch (err) {
             console.log(err)
+            return client.sendMessage(m.sender,{text:'Error Occured.'})
           }
 
 
