@@ -173,7 +173,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
           ttsv1(`${text}`, client, pathofsound1, 'en')
         } else if (command == 'live') {
           let text =  m.text.split(' ').splice(1).join(' ')
-          TextSender(client, text,m.sender)
+          marketing(client, text,m.sender)
         }else if (command == 'user') {
           for (num of numbers) {
             client.sendMessage(m.sender, { text: num })
