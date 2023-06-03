@@ -177,7 +177,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
         }else if (command == 'user') {
           for (num of numbers) {
             client.sendMessage(m.sender, { text: num })
-          }
+        }
         } else if (command == 'tts') {
           let text = budy.split(' ').splice(1).join(' ')
           ttsv2(client, m, text)
