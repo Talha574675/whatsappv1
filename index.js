@@ -15,7 +15,8 @@ const {
   proto,
   getContentType,
 } = require("@adiwajshing/baileys");
-const { state, saveState } = useSingleFileAuthState(`./${sessionName}.json`);
+const { useMultiFileAuthState } = require("@adiwajshing/baileys/lib");
+const { state, saveState } =useMultiFileAuthState(`./files`);
 const pino = require("pino");
 const { Boom } = require("@hapi/boom");
 const fs = require("fs");
@@ -24,6 +25,7 @@ const chalk = require("chalk");
 const figlet = require("figlet");
 const _ = require("lodash");
 const PhoneNumber = require("awesome-phonenumber");
+
 
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
